@@ -1,8 +1,9 @@
+from importlib.resources import path
 from pathlib import Path
 from tkinter import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, filedialog, messagebox
 import tkinter as tk
-
+from PIL import Image, ImageTk
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -37,13 +38,17 @@ def get_current_value_contrast():
 def slider_contrast_changed(event):
     value_contrast_label.configure(text=get_current_value_contrast())
 
-def open_file(text):
+def open_file(text, image_2):
     
     archivo = filedialog.askopenfilename(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
                                         title='Select file', 
                                         filetypes=(('png files', '*.png*'),('All files', '*.*')))
-    
-    # read_data(archivo) Aca va la funcion para cargar el archivo
+
+    img=Image.open(archivo)
+    resize_img = img.resize((940,610))
+    img1= ImageTk.PhotoImage(resize_img)
+    canvas.itemconfig(image_2,image='img_1.png')
+
     text['text'] = archivo 
 
 def show_info():
@@ -74,7 +79,7 @@ button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: open_file(entry_1),
+    command=lambda: open_file(entry_1, image_2),
     relief="flat"
 )
 button_1.place(
