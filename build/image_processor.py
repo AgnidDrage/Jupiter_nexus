@@ -4,6 +4,10 @@ from tkinter import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, filedialog, messagebox
 import tkinter as tk
 from PIL import Image, ImageTk
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+import matplotlib.image as mpimg
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -38,16 +42,21 @@ def get_current_value_contrast():
 def slider_contrast_changed(event):
     value_contrast_label.configure(text=get_current_value_contrast())
 
-def open_file(text, image_2):
+def open_file(text):
     
     archivo = filedialog.askopenfilename(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
                                         title='Select file', 
                                         filetypes=(('png files', '*.png*'),('All files', '*.*')))
 
-    img=Image.open(archivo)
-    resize_img = img.resize((940,610))
-    img1= ImageTk.PhotoImage(resize_img)
-    canvas.itemconfig(image_2,image='img_1.png')
+    figure = plt.figure(figsize=(10, 7))
+    plt.imshow(mpimg.imread(archivo))
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend(loc=4)
+
+    canvas = FigureCanvasTkAgg(figure, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=430,y=255)
 
     text['text'] = archivo 
 
@@ -79,7 +88,7 @@ button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: open_file(entry_1, image_2),
+    command=lambda: open_file(entry_1),
     relief="flat"
 )
 button_1.place(
