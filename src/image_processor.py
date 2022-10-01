@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.image as mpimg
-
+from jupiter_image import processImageByChannels
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
 
@@ -48,17 +48,15 @@ def open_file(text):
                                         title='Select file', 
                                         filetypes=(('png files', '*.png*'),('All files', '*.*')))
 
-    figure = plt.figure(figsize=(10, 7))
-    plt.imshow(mpimg.imread(archivo))
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.legend(loc=4)
+    text['text'] = archivo 
+
+    figure = plt.figure(figsize=(5, 5), dpi=140)
+    img = processImageByChannels('./images/jupiter1/JNCE_2019307_23C00022_V01-red.png', './images/jupiter1/JNCE_2019307_23C00022_V01-green.png', './images/jupiter1/JNCE_2019307_23C00022_V01-blue.png')
+    plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
-    canvas.get_tk_widget().place(x=430,y=255)
-
-    text['text'] = archivo 
+    canvas.get_tk_widget().place(x=600,y=253)
 
 def show_info():
     messagebox.showinfo('FAQ', 'Project made by Jupiter Nexus Team\n\n Members:\n  > Mariano Sanchez Toledo\n  > Agustín Montaña\n  > Florencia Cisterna\n  > Emilia Videla\n  > Oriel Barroso\n  > Mar Quijano\n\n 2022')
@@ -74,6 +72,19 @@ canvas = Canvas(
 )
 
 canvas.place(x = 0, y = 0)
+
+canvas_plot = Canvas(
+    window,
+    bg = "#FFFFFF",
+    height = 700,
+    width = 700,
+    bd = 0,
+    highlightthickness = 0,
+    relief = "ridge"
+)
+
+canvas_plot.place(x = 600, y = 253)
+
 image_image_1 = PhotoImage(
     file=relative_to_assets("image_1.png"))
 image_1 = canvas.create_image(
@@ -231,13 +242,13 @@ entry_1.place(
     height=48.0
 )
 
-image_image_2 = PhotoImage(
+'''image_image_2 = PhotoImage(
     file=relative_to_assets("image_2.png"))
 image_2 = canvas.create_image(
     947.0,
     610.0,
     image=image_image_2
-)
+)'''
 
 slider_bright = Scale(
     window,
