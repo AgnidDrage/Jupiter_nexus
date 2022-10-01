@@ -40,11 +40,14 @@ def slider_contrast_changed(event):
 def open_file(text):
     
     archivo = filedialog.askopenfilename(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
-                                        title='Selecione archivo', 
+                                        title='Select file', 
                                         filetypes=(('png files', '*.png*'),('All files', '*.*')))
     
     # read_data(archivo) Aca va la funcion para cargar el archivo
     text['text'] = archivo 
+
+def show_info():
+    messagebox.showinfo('FAQ', 'Project made by Jupiter Nexus Team\n\n Members:\n  > Mariano Sanchez Toledo\n  > Agustín Montaña\n  > Florencia Cisterna\n  > Emilia Videla\n  > Oriel Barroso\n  > Mar Quijano\n\n 2022')
 
 canvas = Canvas(
     window,
@@ -75,7 +78,7 @@ button_1 = Button(
     relief="flat"
 )
 button_1.place(
-    x=26.0,
+    x=63.0,
     y=158.0,
     width=252.0,
     height=50.0
@@ -91,10 +94,10 @@ button_2 = Button(
     relief="flat"
 )
 button_2.place(
-    x=1331.0,
-    y=158.0,
-    width=252.0,
-    height=50.0
+    x=26.0,
+    y=707.0,
+    width=326.0,
+    height=70.0
 )
 
 button_image_3 = PhotoImage(
@@ -103,7 +106,7 @@ button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
+    command=lambda: show_info(),
     relief="flat"
 )
 button_3.place(
@@ -145,22 +148,70 @@ button_5.place(
     height=79.0
 )
 
+button_image_6 = PhotoImage(
+    file=relative_to_assets("button_6.png"))
+button_6 = Button(
+    image=button_image_6,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: print("button_6 clicked"),
+    relief="flat"
+)
+button_6.place(
+    x=1516.0,
+    y=426.0,
+    width=105.0,
+    height=79.0
+)
+
+button_image_7 = PhotoImage(
+    file=relative_to_assets("button_7.png"))
+button_7 = Button(
+    image=button_image_7,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: print("button_7 clicked"),
+    relief="flat"
+)
+button_7.place(
+    x=1516.0,
+    y=510.0,
+    width=105.0,
+    height=79.0
+)
+
+button_image_8 = PhotoImage(
+    file=relative_to_assets("button_8.png"))
+button_8 = Button(
+    image=button_image_8,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: print("button_8 clicked"),
+    relief="flat"
+)
+button_8.place(
+    x=1516.0,
+    y=594.0,
+    width=105.0,
+    height=79.0
+)
+
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
-    802.5,
+    947.5,
     183.0,
     image=entry_image_1
 )
 entry_1 = Label(
     bd = 0,
-        bg = "#FFFFFF",
-        highlightthickness = 0,
-        font=('Nunito 12'),
-        justify=LEFT
+    bg = "#FFFFFF",
+    highlightthickness = 0,
+    font=('Nunito 12'),
+    justify=LEFT
 )
 entry_1.place(
-    x=322.0,
+    x=467.0,
     y=158.0,
     width=961.0,
     height=48.0
