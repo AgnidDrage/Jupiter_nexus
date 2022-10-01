@@ -1,0 +1,17 @@
+astropy==5.1
+certifi @ file:///C:/b/abs_4f5wo627a3/croots/recipe/certifi_1663615677642/work/certifi
+contourpy==1.0.5
+cycler==0.11.0
+fonttools==4.37.4
+kiwisolver==1.4.4
+matplotlib==3.6.0
+numpy==1.23.3
+opencv-python==4.6.0.66
+packaging==21.3
+Pillow==9.2.0
+pyerfa==2.0.0.1
+pyparsing==3.0.9
+python-dateutil==2.8.2
+PyYAML==6.0
+six==1.16.0
+wincertstore==0.2
