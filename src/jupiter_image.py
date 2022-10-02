@@ -21,20 +21,6 @@ def processSingleChannel(path):
     imgOut = cv2.imread(path, cv2.IMREAD_COLOR)
     return imgOut
 
-def changeContrast(img, alpha, beta):
-    new_img = cv2.convertScaleAbs(img, alpha=alpha, beta=beta)
-    return new_img
-    
-def change_brightness(img, value=30):
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    h, s, v = cv2.split(hsv)
-    v = cv2.add(v,value)
-    v[v > 255] = 255
-    v[v < 0] = 0
-    final_hsv = cv2.merge((h, s, v))
-    img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
-    return img
-
 def processMapImage(mapPath):
     image = cv2.imread(mapPath, flags=cv2.IMREAD_COLOR)
     #sharped image
@@ -66,3 +52,46 @@ def processMapImage(mapPath):
     imgOut = cv2.cvtColor(hsv_img2, cv2.COLOR_HSV2RGB)
 
     return imgOut
+
+def processRawImage(rawPath):
+    img = cv2.imread(rawPath, cv2.IMREAD_GRAYSCALE)
+    frames = [img[x:x+128,y:y+1648] for x in range(0,img.shape[0],128) for y in range(0,img.shape[1],1648)]
+    imagen2= np.zeros((26, 1648), np.uint8)
+    testFrame = np.zeros((128, 1648), np.uint8)
+    testFrame2 = np.zeros(((128)*2, 1648), np.uint8)
+
+    b = frames[0:len(frames):3]
+    g = frames[1:len(frames):3]
+    r = frames[2:len(frames):3]
+
+    b = [np.concatenate([i, imagen2], axis=0) for i in b]
+    g = [np.concatenate([i, imagen2], axis=0) for i in g]
+    r = [np.concatenate([i, imagen2], axis=0) for i in r]
+    b = np.concatenate(b, axis=0)
+    g = np.concatenate(g, axis=0)
+    r = np.concatenate(r, axis=0)
+
+    g = np.concatenate([testFrame, g], axis=0)
+    r = np.concatenate([testFrame2, r], axis=0)
+    g = g[0:b.shape[0], 0:b.shape[1]]
+    r = r[0:b.shape[0], 0:b.shape[1]]
+
+    ImgOut = cv2.merge((b,g,r))
+
+    return ImgOut
+
+
+def changeContrast(img, alpha):
+    new_img = cv2.convertScaleAbs(img, alpha=alpha, beta=1)
+    return new_img
+
+def change_brightness(img, value=30):
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    h, s, v = cv2.split(hsv)
+    v = cv2.add(v,value)
+    v[v > 255] = 255
+    v[v < 0] = 0
+    final_hsv = cv2.merge((h, s, v))
+    img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+    return img
+
