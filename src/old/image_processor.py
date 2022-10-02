@@ -43,7 +43,7 @@ def relative_to_assets(path: str) -> Path:
 
 window = Tk()
 
-window.geometry("1280x720")
+window.geometry("1600x994")
 window.configure(bg = "#FFFFFF")
 
 current_value_bright = tk.DoubleVar()
@@ -172,19 +172,32 @@ def show_info():
 canvas = Canvas(
     window,
     bg = "#FFFFFF",
-    height = 720,
-    width = 1280,
+    height = 994,
+    width = 1600,
     bd = 0,
     highlightthickness = 0,
     relief = "ridge"
 )
 
 canvas.place(x = 0, y = 0)
+
+canvas_plot = Canvas(
+    window,
+    bg = "#FFFFFF",
+    height = 700,
+    width = 700,
+    bd = 0,
+    highlightthickness = 0,
+    relief = "ridge"
+)
+
+canvas_plot.place(x = 600, y = 253)
+
 image_image_1 = PhotoImage(
     file=relative_to_assets("image_1.png"))
 image_1 = canvas.create_image(
-    640.0,
-    360.0,
+    800.0,
+    512.0,
     image=image_image_1
 )
 
@@ -198,10 +211,10 @@ button_1 = Button(
     relief="flat"
 )
 button_1.place(
-    x=38.0,
-    y=109.0,
-    width=230.0,
-    height=40.0
+    x=63.0,
+    y=158.0,
+    width=252.0,
+    height=50.0
 )
 
 button_image_2 = PhotoImage(
@@ -214,10 +227,10 @@ button_2 = Button(
     relief="flat"
 )
 button_2.place(
-    x=36.0,
-    y=647.0,
-    width=230.0,
-    height=40.0
+    x=28.0,
+    y=886.0,
+    width=326.0,
+    height=70.0
 )
 
 button_image_3 = PhotoImage(
@@ -226,14 +239,14 @@ button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: process(),
+    command=lambda: show_info(),
     relief="flat"
 )
 button_3.place(
-    x=36.0,
-    y=494.0,
-    width=230.0,
-    height=40.0
+    x=1526.0,
+    y=45.0,
+    width=57.0,
+    height=51.0
 )
 
 button_image_4 = PhotoImage(
@@ -242,14 +255,14 @@ button_4 = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: show_info(),
+    command=lambda: show_raw(raw_path),
     relief="flat"
 )
 button_4.place(
-    x=1197.0,
-    y=25.0,
-    width=57.0,
-    height=51.0
+    x=1516.0,
+    y=257.0,
+    width=105.0,
+    height=79.0
 )
 
 button_image_5 = PhotoImage(
@@ -258,14 +271,14 @@ button_5 = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: show_green(g_path),
+    command=lambda: show_red(r_path),
     relief="flat"
 )
 button_5.place(
-    x=1212.0,
-    y=256.0,
-    width=84.0,
-    height=56.0
+    x=1516.0,
+    y=344.0,
+    width=105.0,
+    height=79.0
 )
 
 button_image_6 = PhotoImage(
@@ -278,10 +291,10 @@ button_6 = Button(
     relief="flat"
 )
 button_6.place(
-    x=1212.0,
-    y=320.0,
-    width=84.0,
-    height=56.0
+    x=1516.0,
+    y=426.0,
+    width=105.0,
+    height=79.0
 )
 
 button_image_7 = PhotoImage(
@@ -294,10 +307,10 @@ button_7 = Button(
     relief="flat"
 )
 button_7.place(
-    x=1212.0,
-    y=384.0,
-    width=84.0,
-    height=53.0
+    x=1516.0,
+    y=510.0,
+    width=105.0,
+    height=79.0
 )
 
 button_image_8 = PhotoImage(
@@ -306,30 +319,14 @@ button_8 = Button(
     image=button_image_8,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_8 clicked"),
+    command=lambda: show_rgb(r_path, g_path, b_path),
     relief="flat"
 )
 button_8.place(
-    x=1212.0,
-    y=567.0,
-    width=84.0,
-    height=53.0
-)
-
-button_image_9 = PhotoImage(
-    file=relative_to_assets("button_9.png"))
-button_9 = Button(
-    image=button_image_9,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_9 clicked"),
-    relief="flat"
-)
-button_9.place(
-    x=1212.0,
-    y=628.0,
-    width=84.0,
-    height=53.0
+    x=1516.0,
+    y=594.0,
+    width=105.0,
+    height=79.0
 )
 
 button_image_10 = PhotoImage(
@@ -338,73 +335,120 @@ button_10 = Button(
     image=button_image_10,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: show_rgb(r_path, g_path, b_path),
+    command=lambda: process(),
     relief="flat"
 )
 button_10.place(
-    x=1212.0,
-    y=506.0,
-    width=84.0,
-    height=53.0
-)
-
-button_image_11 = PhotoImage(
-    file=relative_to_assets("button_11.png"))
-button_11 = Button(
-    image=button_image_11,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: show_raw(raw_path),
-    relief="flat"
-)
-button_11.place(
-    x=1212.0,
-    y=445.0,
-    width=84.0,
-    height=53.0
+    x=26.0,
+    y=699.0,
+    width=326.0,
+    height=70.0
 )
 
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
-    775.0,
-    129.0,
+    947.5,
+    183.0,
     image=entry_image_1
 )
-entry_1 = Entry(
-    bd=0,
-    bg="#FFFFFF",
-    highlightthickness=0
+entry_1 = Label(
+    bd = 0,
+    bg = "#FFFFFF",
+    highlightthickness = 0,
+    font=('Nunito 12'),
+    justify=LEFT
 )
 entry_1.place(
-    x=340.0,
-    y=109.0,
-    width=870.0,
-    height=38.0
+    x=467.0,
+    y=158.0,
+    width=961.0,
+    height=48.0
 )
 
-image_image_2 = PhotoImage(
-    file=relative_to_assets("image_2.png"))
-image_2 = canvas.create_image(
-    768.0,
-    439.0,
-    image=image_image_2
+slider_bright = Scale(
+    window,
+    from_=-127,
+    to=127,
+    orient='horizontal',
+    command=slider_bright_changed,
+    variable=current_value_bright,
+    background='#868789',
+    highlightcolor='#868789',
+    highlightbackground='#868789',)
+
+slider_bright.place(
+    x=30,
+    y=360,
+    width=320,
+    height=48.0
 )
 
-button_image_12 = PhotoImage(
-    file=relative_to_assets("button_12.png"))
-button_12 = Button(
-    image=button_image_12,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_12 clicked"),
-    relief="flat"
+slider_color = Scale(
+    window,
+    from_=-50,
+    to=50,
+    orient='horizontal',
+    command=slider_color_changed,
+    variable=current_value_color,
+    background='#868789',
+    highlightcolor='#868789',
+    highlightbackground='#868789',)
+
+slider_color.place(
+    x=30,
+    y=470,
+    width=320,
+    height=48.0
 )
-button_12.place(
-    x=1212.0,
-    y=192.0,
-    width=84.0,
-    height=56.0
+
+slider_contrast = Scale(
+    window,
+    from_=-50,
+    to=50,
+    orient='horizontal',
+    command=slider_contrast_changed,
+    variable=current_value_contrast,
+    background='#868789',
+    highlightcolor='#868789',
+    highlightbackground='#868789',)
+
+slider_contrast.place(
+    x=30,
+    y=583,
+    width=320,
+    height=48.0
 )
+
+current_value_bright_label = Label(
+    window,
+    text='Current Value:'
+)
+
+value_bright_label = Label(
+    window,
+    text=get_current_value_bright()
+)
+
+current_value_color_label = Label(
+    window,
+    text='Current Value:'
+)
+
+value_color_label = Label(
+    window,
+    text=get_current_value_color()
+)
+
+current_value_contrast_label = Label(
+    window,
+    text='Current Value:'
+)
+
+value_contrast_label = Label(
+    window,
+    text=get_current_value_contrast()
+)
+
 window.resizable(False, False)
 window.mainloop()
