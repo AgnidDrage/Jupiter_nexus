@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import re
 import os
+import cv2
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.image as mpimg
@@ -104,7 +105,7 @@ def show_raw(raw_path):
     global figure
     try:
         figure = plt.figure(figsize=(5, 5), dpi=98)
-        img = mpimg.imread(str(raw_path))
+        img = processSingleChannel(raw_path)
         plt.imshow(img)
 
         canvas = FigureCanvasTkAgg(figure, master=window)
@@ -212,6 +213,7 @@ def show_praw(raw_path):
         messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def process():
+    global img
     global figure
     global img_new
     global bright_value
@@ -220,10 +222,10 @@ def process():
     try:
         contrast_value = int(round(float(contrast_value)))
         bright_value = int(round(float(bright_value)))
-        img_brillo = change_brightness(img, bright_value)
-        img_new = changeContrast(img_brillo, contrast_value)
-        img_new2 = saturation(img_new, color_value)
-        plt.imshow(img_new2)
+        img = change_brightness(img, bright_value)
+        img = changeContrast(img, contrast_value)
+        #img_new2 = saturation(img_new, color_value)
+        plt.imshow(img)
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
         canvas.get_tk_widget().place(x=520,y=190)
@@ -238,7 +240,7 @@ def export():
                                                 title='Save path', 
                                                 filetypes=(('png files', '*.png*'),('All files', '*.*')))
 
-    plt.savefig (save_path)
+    cv2.imwrite(save_path+'.jpg', cv2.cvtColor(img, cv2.COLOR_RGB2BGRA))
     messagebox.showinfo('Export complete', f'The file was successfully exported to {save_path}.png')
 
 def show_info():
