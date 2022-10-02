@@ -19,6 +19,7 @@ def processImageByChannels(redPath, greenPath, bluePath):
 
 def processSingleChannel(path):
     imgOut = cv2.imread(path, cv2.IMREAD_COLOR)
+    imgOut = cv2.cvtColor(imgOut, cv2.COLOR_BGR2RGB)
     return imgOut
 
 def processMapImage(mapPath):
