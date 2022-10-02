@@ -14,7 +14,7 @@ import os
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.image as mpimg
-from jupiter_image import processImageByChannels, increase_brightness, change_brightness
+from jupiter_image import *
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -27,6 +27,8 @@ global b_path
 b_path = None
 global raw_path
 raw_path = None
+global map_path
+map_path = None
 global bright_value
 bright = None
 global img
@@ -74,6 +76,7 @@ def open_file(text):
     global r_path
     global g_path
     global b_path
+    global map_path
 
     path = filedialog.askdirectory(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
                                             title='Select folder')
@@ -91,42 +94,52 @@ def open_file(text):
             g_path = path + '/' + image
         if re.findall('blue', image):
             b_path = path + '/' + image
+        if re.findall('mapprojected', image):
+            map_path = path + '/' + image
 
     show_raw(raw_path)
 
 def show_raw(raw_path):
-    figure_raw = plt.figure(figsize=(5, 5), dpi=140)
+    global img
+    global figure
+    figure = plt.figure(figsize=(5, 5), dpi=140)
     img = mpimg.imread(str(raw_path))
     plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure_raw, master=window)
+    canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
     canvas.get_tk_widget().place(x=600,y=253)
 
 def show_red(red_path):
-    figure_red = plt.figure(figsize=(5, 5), dpi=140)
-    img = mpimg.imread(str(red_path))
+    global img
+    global figure
+    figure = plt.figure(figsize=(5, 5), dpi=140)
+    img = processRed(red_path)
     plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure_red, master=window)
+    canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
     canvas.get_tk_widget().place(x=600,y=253)
 
 def show_green(green_path):
-    figure_green = plt.figure(figsize=(5, 5), dpi=140)
-    img = mpimg.imread(str(green_path))
+    global img
+    global figure
+    figure = plt.figure(figsize=(5, 5), dpi=140)
+    img = processGreen(green_path)
     plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure_green, master=window)
+    canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
     canvas.get_tk_widget().place(x=600,y=253)  
 
-def show_blue(blue_path):
-    figure_blue = plt.figure(figsize=(5, 5), dpi=140)
-    img = mpimg.imread(str(blue_path))
+def show_blue(map_path):
+    global img
+    global figure
+    figure = plt.figure(figsize=(5, 5), dpi=140)
+    img = processMapImage(map_path)
     plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure_blue, master=window)
+    canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
     canvas.get_tk_widget().place(x=600,y=253)
 
@@ -290,7 +303,7 @@ button_7 = Button(
     image=button_image_7,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: show_blue(b_path),
+    command=lambda: show_blue(map_path),
     relief="flat"
 )
 button_7.place(

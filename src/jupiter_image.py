@@ -17,6 +17,18 @@ def processImageByChannels(redPath, greenPath, bluePath):
 
     return cv2.merge((red, green, blue))
 
+def processRed(redPath):
+    redImg = cv2.imread(redPath, cv2.IMREAD_COLOR)
+    return redImg
+
+def processGreen(greenPath):
+    greenImg = cv2.imread(greenPath, cv2.IMREAD_COLOR)
+    return greenImg
+
+def processBlue(bluePath):
+    blueImg = cv2.imread(bluePath, cv2.IMREAD_COLOR)
+    return blueImg
+
 def changeContrast(img, alpha, beta):
     new_img = cv2.convertScaleAbs(img, alpha=alpha, beta=beta)
     return new_img
@@ -30,3 +42,35 @@ def change_brightness(img, value=30):
     final_hsv = cv2.merge((h, s, v))
     img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
     return img
+
+def processMapImage(mapPath):
+    image = cv2.imread(mapPath, flags=cv2.IMREAD_COLOR)
+    #sharped image
+    kernel = np.array([[0, -1, 0],
+                    [-1, 5,-1],
+                    [0, -1, 0]])
+
+    image_sharp = cv2.filter2D(src=image, ddepth=-1, kernel=kernel)
+
+    hsv = cv2.cvtColor(image_sharp, cv2.COLOR_BGR2HSV)
+    h, s, v = cv2.split(hsv)
+    lim = 255 - 20
+    v[v > lim] = 255
+    v[v <= lim] += 20
+    image_bright = cv2.merge((h, s, v))
+
+    # adjusting saturation
+    h, s, v = image_bright[:,:,0], image_bright[:,:,1], image_bright[:,:,2]
+    clahe = cv2.createCLAHE(clipLimit = 6, tileGridSize = (10,10))
+    s = clahe.apply(s)
+    hsv_img = np.dstack((h,s,v))
+
+    #adjusting contrast
+    h, s, v = hsv_img[:,:,0], hsv_img[:,:,1], hsv_img[:,:,2]
+    clahe = cv2.createCLAHE(clipLimit = 7, tileGridSize = (10,10))
+    v = clahe.apply(v)
+    hsv_img2 = np.dstack((h,s,v))
+
+    imgOut = cv2.cvtColor(hsv_img2, cv2.COLOR_HSV2RGB)
+
+    return imgOut
