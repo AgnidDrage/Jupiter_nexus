@@ -1,17 +1,5 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-from astropy.visualization import make_lupton_rgb
-from astropy.io import fits
-from PIL import ImageEnhance
-import torch
-import torchvision
-import torchvision.transforms as T
-import torchvision.transforms.functional as F
-from torchvision.io import read_image
-
-
 
 def processImageByChannels(redPath, greenPath, bluePath):
     red = cv2.imread(redPath, cv2.IMREAD_GRAYSCALE)
