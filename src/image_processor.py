@@ -157,18 +157,19 @@ def show_blue(blue_path):
 def show_rgb(r_path, g_path, b_path):
     global img
     global figure
-    global img_new
     figure = plt.figure(figsize=(5, 5), dpi=98)
     img = processImageByChannels(r_path, g_path, b_path)
     plt.imshow(img)
-    process()
+    
+    canvas = FigureCanvasTkAgg(figure, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=520,y=190)
 
 def process():
     global figure
     global img_new
     global bright_value
     bright_value = int(round(float(bright_value)))
-    #img_new = increase_brightness(img, bright_value)
     img_new = change_brightness(img, bright_value)
     plt.imshow(img_new)
 
