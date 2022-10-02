@@ -5,7 +5,7 @@ import matplotlib as mpl
 from astropy.visualization import make_lupton_rgb
 from astropy.io import fits
 
-INPUT_PATH = "./images/"
+INPUT_PATH = ""
 
 def processImageByChannels(redPath, greenPath, bluePath):
     red = cv2.imread(redPath, cv2.IMREAD_GRAYSCALE)

@@ -5,6 +5,9 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, filedialog
 import tkinter as tk
 from PIL import Image, ImageTk
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import re
+import os
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.image as mpimg
@@ -12,6 +15,15 @@ from jupiter_image import processImageByChannels
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+
+global r_path
+r_path = None
+global g_path
+g_path = None
+global b_path
+b_path = None
+global raw_path
+raw_path = None
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -44,15 +56,79 @@ def slider_contrast_changed(event):
     value_contrast_label.configure(text=get_current_value_contrast())
 
 def open_file(text):
-    
-    archivo = filedialog.askopenfilename(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
-                                        title='Select file', 
-                                        filetypes=(('png files', '*.png*'),('All files', '*.*')))
+    global raw_path
+    global r_path
+    global g_path
+    global b_path
 
-    text['text'] = archivo 
+    path = filedialog.askdirectory(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
+                                            title='Select folder')
 
+    text['text'] = path 
+
+    images = os.listdir(path)
+
+    for image in images:
+        if re.findall('raw', image):
+            raw_path = path + '/' + image
+        if re.findall('red', image):
+            r_path = path + '/' + image
+        if re.findall('green', image):
+            g_path = path + '/' + image
+        if re.findall('blue', image):
+            b_path = path + '/' + image
+
+    show_raw(raw_path)
+
+    return raw_path, r_path, g_path, b_path
+
+    '''figure = plt.figure(figsize=(5, 5), dpi=140)
+    img = processImageByChannels(r_path, g_path, b_path)
+    plt.imshow(img)
+
+    canvas = FigureCanvasTkAgg(figure, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=600,y=253)'''
+
+def show_raw(raw_path):
+    figure_raw = plt.figure(figsize=(5, 5), dpi=140)
+    img = mpimg.imread(str(raw_path))
+    plt.imshow(img)
+
+    canvas = FigureCanvasTkAgg(figure_raw, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=600,y=253)
+
+def show_red(red_path):
+    figure_red = plt.figure(figsize=(5, 5), dpi=140)
+    img = mpimg.imread(str(red_path))
+    plt.imshow(img)
+
+    canvas = FigureCanvasTkAgg(figure_red, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=600,y=253)
+
+def show_green(green_path):
+    figure_green = plt.figure(figsize=(5, 5), dpi=140)
+    img = mpimg.imread(str(green_path))
+    plt.imshow(img)
+
+    canvas = FigureCanvasTkAgg(figure_green, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=600,y=253)  
+
+def show_blue(blue_path):
+    figure_blue = plt.figure(figsize=(5, 5), dpi=140)
+    img = mpimg.imread(str(blue_path))
+    plt.imshow(img)
+
+    canvas = FigureCanvasTkAgg(figure_blue, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=600,y=253)
+
+def show_rgb(r_path, g_path, b_path):
     figure = plt.figure(figsize=(5, 5), dpi=140)
-    img = processImageByChannels('./images/jupiter1/JNCE_2019307_23C00022_V01-red.png', './images/jupiter1/JNCE_2019307_23C00022_V01-green.png', './images/jupiter1/JNCE_2019307_23C00022_V01-blue.png')
+    img = processImageByChannels(r_path, g_path, b_path)
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
@@ -148,7 +224,7 @@ button_4 = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=lambda: show_raw(raw_path),
     relief="flat"
 )
 button_4.place(
@@ -164,7 +240,7 @@ button_5 = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_5 clicked"),
+    command=lambda: show_red(r_path),
     relief="flat"
 )
 button_5.place(
@@ -180,7 +256,7 @@ button_6 = Button(
     image=button_image_6,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_6 clicked"),
+    command=lambda: show_green(g_path),
     relief="flat"
 )
 button_6.place(
@@ -196,7 +272,7 @@ button_7 = Button(
     image=button_image_7,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_7 clicked"),
+    command=lambda: show_blue(b_path),
     relief="flat"
 )
 button_7.place(
@@ -212,7 +288,7 @@ button_8 = Button(
     image=button_image_8,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_8 clicked"),
+    command=lambda: show_rgb(r_path, g_path, b_path9),
     relief="flat"
 )
 button_8.place(
