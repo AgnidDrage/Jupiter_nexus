@@ -114,7 +114,7 @@ def show_red(red_path):
     global img
     global figure
     figure = plt.figure(figsize=(5, 5), dpi=140)
-    img = processRed(red_path)
+    img = processSingleChannel(red_path)
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
@@ -125,7 +125,7 @@ def show_green(green_path):
     global img
     global figure
     figure = plt.figure(figsize=(5, 5), dpi=140)
-    img = processGreen(green_path)
+    img = processSingleChannel(green_path)
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)

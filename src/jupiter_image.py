@@ -17,17 +17,9 @@ def processImageByChannels(redPath, greenPath, bluePath):
 
     return cv2.merge((red, green, blue))
 
-def processRed(redPath):
-    redImg = cv2.imread(redPath, cv2.IMREAD_COLOR)
-    return redImg
-
-def processGreen(greenPath):
-    greenImg = cv2.imread(greenPath, cv2.IMREAD_COLOR)
-    return greenImg
-
-def processBlue(bluePath):
-    blueImg = cv2.imread(bluePath, cv2.IMREAD_COLOR)
-    return blueImg
+def processSingleChannel(path):
+    imgOut = cv2.imread(path, cv2.IMREAD_COLOR)
+    return imgOut
 
 def changeContrast(img, alpha, beta):
     new_img = cv2.convertScaleAbs(img, alpha=alpha, beta=beta)
