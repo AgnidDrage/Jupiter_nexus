@@ -1,12 +1,7 @@
-from bisect import bisect_right
-import imghdr
-from importlib.resources import path
 from pathlib import Path
 from tkinter import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, filedialog, messagebox
 import tkinter as tk
-from PIL import Image, ImageTk, ImageEnhance
-import cv2
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import re
@@ -165,6 +160,29 @@ def show_rgb(r_path, g_path, b_path):
     canvas.draw()
     canvas.get_tk_widget().place(x=520,y=190)
 
+def show_pmap(map_path):
+    global img
+    global figure
+    figure = plt.figure(figsize=(5, 5), dpi=98)
+    img = processMapImage(map_path)
+    plt.imshow(img)
+
+    canvas = FigureCanvasTkAgg(figure, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=520,y=190)
+
+def show_praw(raw_path):
+    global img
+    global figure
+    figure = plt.figure(figsize=(5, 5), dpi=98)
+    img = processRawImage(raw_path)
+    plt.imshow(img)
+
+    canvas = FigureCanvasTkAgg(figure, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=520,y=190)
+
+
 def process():
     global figure
     global img_new
@@ -318,7 +336,7 @@ button_8 = Button(
     image=button_image_8,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_8 clicked"),
+    command=lambda: show_pmap(map_path),
     relief="flat"
 )
 button_8.place(
@@ -334,7 +352,7 @@ button_9 = Button(
     image=button_image_9,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_9 clicked"),
+    command=lambda: show_praw(raw_path),
     relief="flat"
 )
 button_9.place(
@@ -383,7 +401,7 @@ entry_bg_1 = canvas.create_image(
     129.0,
     image=entry_image_1
 )
-entry_1 = Entry(
+entry_1 = Label(
     bd=0,
     bg="#FFFFFF",
     highlightthickness=0
