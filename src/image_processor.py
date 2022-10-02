@@ -213,24 +213,24 @@ def show_praw(raw_path):
         messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def process():
-    global img
-    global figure
-    global img_new
-    global bright_value
-    global contrast_value
-    global color_value
-    try:
-        contrast_value = int(round(float(contrast_value)))
-        bright_value = int(round(float(bright_value)))
-        img = change_brightness(img, bright_value)
-        img = changeContrast(img, contrast_value)
-        #img_new2 = saturation(img_new, color_value)
-        plt.imshow(img)
-        canvas = FigureCanvasTkAgg(figure, master=window)
-        canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)
-    except cv2.error:
-        messagebox.showerror('Error', 'There are no images to process, please select a folder first.')
+   global figure
+   global img_new
+   global bright_value
+   global contrast_value
+   global color_value
+   try:
+       contrast_value = int(round(float(contrast_value)))
+       bright_value = int(round(float(bright_value)))
+       color_value = int(round(float(color_value)))
+       img_brillo = change_brightness(img, bright_value)
+       img_new = changeContrast(img_brillo, contrast_value)
+       img_new2 = saturation(img_new, color_value)
+       plt.imshow(img_new2)
+       canvas = FigureCanvasTkAgg(figure, master=window)
+       canvas.draw()
+       canvas.get_tk_widget().place(x=520,y=190)
+   except cv2.error:
+       messagebox.showerror('Error', 'There are no images to process, please select a folder first.')
 
 
 def export():
@@ -503,8 +503,8 @@ slider_bright.place(
 
 slider_color = Scale(
     window,
-    from_=-50,
-    to=50,
+    from_=-30,
+    to=30,
     orient='horizontal',
     command=slider_color_changed,
     variable=current_value_color,

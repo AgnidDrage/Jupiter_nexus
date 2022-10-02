@@ -5,6 +5,11 @@ import matplotlib as mpl
 from astropy.visualization import make_lupton_rgb
 from astropy.io import fits
 from PIL import ImageEnhance
+import torch
+import torchvision
+import torchvision.transforms as T
+import torchvision.transforms.functional as F
+from torchvision.io import read_image
 
 
 
@@ -103,6 +108,10 @@ def change_brightness(img, value=30):
     return img
 
 def saturation(img, sat):
-    filter = ImageEnhance.Color(img)
-    img2 = converter.enhance(0.5)
-    return new_image
+    # adjust the saturation of the input image
+    y = 0.52*sat + 1
+    h, s, v = img[:,:,0], img[:,:,1], img[:,:,2]
+    clahe = cv2.createCLAHE(clipLimit = y, tileGridSize = (10,10))
+    s = clahe.apply(s)
+    hsv_img = np.dstack((h,s,v))
+    return hsv_img
