@@ -1,9 +1,12 @@
+from bisect import bisect_right
+import imghdr
 from importlib.resources import path
 from pathlib import Path
 from tkinter import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, filedialog, messagebox
 import tkinter as tk
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageEnhance
+import cv2
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import re
@@ -11,7 +14,7 @@ import os
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.image as mpimg
-from jupiter_image import processImageByChannels
+from jupiter_image import processImageByChannels, increase_brightness
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -24,6 +27,14 @@ global b_path
 b_path = None
 global raw_path
 raw_path = None
+global bright_value
+bright = None
+global img
+img = None
+global figure
+figure = None
+global img_new
+img_new = None
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -38,19 +49,22 @@ current_value_color = tk.DoubleVar()
 current_value_contrast = tk.DoubleVar()
 
 def get_current_value_bright():
-    return '{: .2f}'.format(current_value_bright.get())
+    global bright_value
+    bright_value = '{: .2f}'.format(current_value_bright.get())
 
 def slider_bright_changed(event):
     value_bright_label.configure(text=get_current_value_bright())
 
 def get_current_value_color():
-    return '{: .2f}'.format(current_value_color.get())
+    color_value = '{: .2f}'.format(current_value_color.get())
+    return color_value
 
 def slider_color_changed(event):
     value_color_label.configure(text=get_current_value_color())
 
 def get_current_value_contrast():
-    return '{: .2f}'.format(current_value_contrast.get())
+    contrast_value = '{: .2f}'.format(current_value_contrast.get())
+    return contrast_value
 
 def slider_contrast_changed(event):
     value_contrast_label.configure(text=get_current_value_contrast())
@@ -79,16 +93,6 @@ def open_file(text):
             b_path = path + '/' + image
 
     show_raw(raw_path)
-
-    return raw_path, r_path, g_path, b_path
-
-    '''figure = plt.figure(figsize=(5, 5), dpi=140)
-    img = processImageByChannels(r_path, g_path, b_path)
-    plt.imshow(img)
-
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=600,y=253)'''
 
 def show_raw(raw_path):
     figure_raw = plt.figure(figsize=(5, 5), dpi=140)
@@ -127,13 +131,26 @@ def show_blue(blue_path):
     canvas.get_tk_widget().place(x=600,y=253)
 
 def show_rgb(r_path, g_path, b_path):
+    global img
+    global figure
+    global img_new
     figure = plt.figure(figsize=(5, 5), dpi=140)
     img = processImageByChannels(r_path, g_path, b_path)
     plt.imshow(img)
+    process()
+
+def process():
+    global figure
+    global img_new
+    global bright_value
+    bright_value = int(round(float(bright_value)))
+    img_new = increase_brightness(img, bright_value)
+    plt.imshow(img_new)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
     canvas.get_tk_widget().place(x=600,y=253)
+
 
 def show_info():
     messagebox.showinfo('FAQ', 'Project made by Jupiter Nexus Team\n\n Members:\n  > Mariano Sanchez Toledo\n  > Agustín Montaña\n  > Florencia Cisterna\n  > Emilia Videla\n  > Oriel Barroso\n  > Mar Quijano\n\n 2022')
@@ -196,8 +213,8 @@ button_2 = Button(
     relief="flat"
 )
 button_2.place(
-    x=26.0,
-    y=707.0,
+    x=28.0,
+    y=886.0,
     width=326.0,
     height=70.0
 )
@@ -298,6 +315,22 @@ button_8.place(
     height=79.0
 )
 
+button_image_10 = PhotoImage(
+    file=relative_to_assets("button_10.png"))
+button_10 = Button(
+    image=button_image_10,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: process(),
+    relief="flat"
+)
+button_10.place(
+    x=26.0,
+    y=699.0,
+    width=326.0,
+    height=70.0
+)
+
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
@@ -318,14 +351,6 @@ entry_1.place(
     width=961.0,
     height=48.0
 )
-
-'''image_image_2 = PhotoImage(
-    file=relative_to_assets("image_2.png"))
-image_2 = canvas.create_image(
-    947.0,
-    610.0,
-    image=image_image_2
-)'''
 
 slider_bright = Scale(
     window,
