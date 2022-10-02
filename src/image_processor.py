@@ -102,13 +102,13 @@ def open_file(text):
 def show_raw(raw_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=140)
+    figure = plt.figure(figsize=(5, 5), dpi=100)
     img = mpimg.imread(str(raw_path))
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
-    canvas.get_tk_widget().place(x=600,y=253)
+    canvas.get_tk_widget().place(x=500,y=253)
 
 def show_red(red_path):
     global img
@@ -405,6 +405,89 @@ button_12.place(
     y=192.0,
     width=84.0,
     height=56.0
+)
+slider_bright = Scale(
+    window,
+    from_=-127,
+    to=127,
+    orient='horizontal',
+    command=slider_bright_changed,
+    variable=current_value_bright,
+    background='#868789',
+    highlightcolor='#868789',
+    highlightbackground='#868789',)
+
+slider_bright.place(
+    x=22,
+    y=249,
+    width=260,
+    height=35
+)
+
+slider_color = Scale(
+    window,
+    from_=-50,
+    to=50,
+    orient='horizontal',
+    command=slider_color_changed,
+    variable=current_value_color,
+    background='#868789',
+    highlightcolor='#868789',
+    highlightbackground='#868789',)
+
+slider_color.place(
+    x=22,
+    y=327,
+    width=260,
+    height=35
+)
+
+slider_contrast = Scale(
+    window,
+    from_=-50,
+    to=50,
+    orient='horizontal',
+    command=slider_contrast_changed,
+    variable=current_value_contrast,
+    background='#868789',
+    highlightcolor='#868789',
+    highlightbackground='#868789',)
+
+slider_contrast.place(
+    x=22,
+    y=406,
+    width=260,
+    height=35
+)
+
+current_value_bright_label = Label(
+    window,
+    text='Current Value:'
+)
+
+value_bright_label = Label(
+    window,
+    text=get_current_value_bright()
+)
+
+current_value_color_label = Label(
+    window,
+    text='Current Value:'
+)
+
+value_color_label = Label(
+    window,
+    text=get_current_value_color()
+)
+
+current_value_contrast_label = Label(
+    window,
+    text='Current Value:'
+)
+
+value_contrast_label = Label(
+    window,
+    text=get_current_value_contrast()
 )
 window.resizable(False, False)
 window.mainloop()
