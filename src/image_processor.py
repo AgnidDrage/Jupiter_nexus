@@ -288,7 +288,7 @@ button_8 = Button(
     image=button_image_8,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: show_rgb(r_path, g_path, b_path9),
+    command=lambda: show_rgb(r_path, g_path, b_path),
     relief="flat"
 )
 button_8.place(
