@@ -102,52 +102,52 @@ def open_file(text):
 def show_raw(raw_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=100)
+    figure = plt.figure(figsize=(5, 5), dpi=98)
     img = mpimg.imread(str(raw_path))
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
-    canvas.get_tk_widget().place(x=500,y=253)
+    canvas.get_tk_widget().place(x=520,y=190)
 
 def show_red(red_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=140)
+    figure = plt.figure(figsize=(5, 5), dpi=98)
     img = processSingleChannel(red_path)
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
-    canvas.get_tk_widget().place(x=600,y=253)
+    canvas.get_tk_widget().place(x=520,y=190)
 
 def show_green(green_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=140)
+    figure = plt.figure(figsize=(5, 5), dpi=98)
     img = processSingleChannel(green_path)
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
-    canvas.get_tk_widget().place(x=600,y=253)  
+    canvas.get_tk_widget().place(x=520,y=190)  
 
 def show_blue(map_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=140)
+    figure = plt.figure(figsize=(5, 5), dpi=98)
     img = processMapImage(map_path)
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
-    canvas.get_tk_widget().place(x=600,y=253)
+    canvas.get_tk_widget().place(x=520,y=190)
 
 def show_rgb(r_path, g_path, b_path):
     global img
     global figure
     global img_new
-    figure = plt.figure(figsize=(5, 5), dpi=140)
+    figure = plt.figure(figsize=(5, 5), dpi=98)
     img = processImageByChannels(r_path, g_path, b_path)
     plt.imshow(img)
     process()
@@ -163,7 +163,7 @@ def process():
 
     canvas = FigureCanvasTkAgg(figure, master=window)
     canvas.draw()
-    canvas.get_tk_widget().place(x=600,y=253)
+    canvas.get_tk_widget().place(x=520,y=190)
 
 
 def show_info():
