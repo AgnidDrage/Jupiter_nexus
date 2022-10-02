@@ -110,6 +110,17 @@ def show_raw(raw_path):
     canvas.draw()
     canvas.get_tk_widget().place(x=520,y=190)
 
+def show_map(map_path):
+    global img
+    global figure
+    figure = plt.figure(figsize=(5, 5), dpi=98)
+    img = processSingleChannel(map_path)
+    plt.imshow(img)
+
+    canvas = FigureCanvasTkAgg(figure, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().place(x=520,y=190)
+
 def show_red(red_path):
     global img
     global figure
@@ -132,11 +143,11 @@ def show_green(green_path):
     canvas.draw()
     canvas.get_tk_widget().place(x=520,y=190)  
 
-def show_blue(map_path):
+def show_blue(blue_path):
     global img
     global figure
     figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = processMapImage(map_path)
+    img = processMapImage(blue_path)
     plt.imshow(img)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
@@ -258,7 +269,7 @@ button_5 = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: show_green(g_path),
+    command=lambda: show_red(r_path),
     relief="flat"
 )
 button_5.place(
@@ -290,7 +301,7 @@ button_7 = Button(
     image=button_image_7,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: show_blue(map_path),
+    command=lambda: show_blue(b_path),
     relief="flat"
 )
 button_7.place(
@@ -354,7 +365,7 @@ button_11 = Button(
     image=button_image_11,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: show_raw(raw_path),
+    command=lambda: show_map(map_path),
     relief="flat"
 )
 button_11.place(
@@ -397,7 +408,7 @@ button_12 = Button(
     image=button_image_12,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_12 clicked"),
+    command=lambda: show_raw(raw_path),
     relief="flat"
 )
 button_12.place(
