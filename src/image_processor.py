@@ -182,7 +182,6 @@ def show_praw(raw_path):
     canvas.draw()
     canvas.get_tk_widget().place(x=520,y=190)
 
-
 def process():
     global figure
     global img_new
@@ -195,6 +194,15 @@ def process():
     canvas.draw()
     canvas.get_tk_widget().place(x=520,y=190)
 
+def export():
+    global img
+
+    save_path = filedialog.asksaveasfilename(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
+                                                title='Save path', 
+                                                filetypes=(('png files', '*.png*'),('All files', '*.*')))
+
+    plt.savefig (save_path)
+    messagebox.showinfo('Export complete', f'The file was successfully exported to {save_path}.png')
 
 def show_info():
     messagebox.showinfo('FAQ', 'Project made by Jupiter Nexus Team\n\n Members:\n  > Mariano Sanchez Toledo\n  > Agustín Montaña\n  > Florencia Cisterna\n  > Emilia Videla\n  > Oriel Barroso\n  > Mar Quijano\n\n 2022')
@@ -240,7 +248,7 @@ button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    command=lambda: export(),
     relief="flat"
 )
 button_2.place(
