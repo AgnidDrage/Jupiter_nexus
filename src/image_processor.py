@@ -32,6 +32,8 @@ global figure
 figure = None
 global img_new
 img_new = None
+global contrast_value
+contrast_value = None
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -53,15 +55,15 @@ def slider_bright_changed(event):
     value_bright_label.configure(text=get_current_value_bright())
 
 def get_current_value_color():
+    global color_value
     color_value = '{: .2f}'.format(current_value_color.get())
-    return color_value
 
 def slider_color_changed(event):
     value_color_label.configure(text=get_current_value_color())
 
 def get_current_value_contrast():
+    global contrast_value
     contrast_value = '{: .2f}'.format(current_value_contrast.get())
-    return contrast_value
 
 def slider_contrast_changed(event):
     value_contrast_label.configure(text=get_current_value_contrast())
@@ -213,12 +215,15 @@ def process():
     global figure
     global img_new
     global bright_value
-
+    global contrast_value
+    global color_value
     try:
+        contrast_value = int(round(float(contrast_value)))
         bright_value = int(round(float(bright_value)))
-        img_new = change_brightness(img, bright_value)
-        plt.imshow(img_new)
-
+        img_brillo = change_brightness(img, bright_value)
+        img_new = changeContrast(img_brillo, contrast_value)
+        img_new2 = saturation(img_new, color_value)
+        plt.imshow(img_new2)
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
         canvas.get_tk_widget().place(x=520,y=190)
@@ -514,8 +519,8 @@ slider_color.place(
 
 slider_contrast = Scale(
     window,
-    from_=-50,
-    to=50,
+    from_=-30,
+    to=30,
     orient='horizontal',
     command=slider_contrast_changed,
     variable=current_value_contrast,

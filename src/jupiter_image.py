@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from astropy.visualization import make_lupton_rgb
 from astropy.io import fits
+from PIL import ImageEnhance
+
 
 
 def processImageByChannels(redPath, greenPath, bluePath):
@@ -83,7 +85,11 @@ def processRawImage(rawPath):
 
 
 def changeContrast(img, alpha):
-    new_img = cv2.convertScaleAbs(img, alpha=alpha, beta=1)
+    if alpha >= 0:
+        y = 0.0667*alpha + 1
+    elif alpha < 0:
+        y = 0.03333*alpha + 1
+    new_img = cv2.convertScaleAbs(img, alpha=y, beta=1)
     return new_img
 
 def change_brightness(img, value=30):
@@ -96,3 +102,7 @@ def change_brightness(img, value=30):
     img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
     return img
 
+def saturation(img, sat):
+    filter = ImageEnhance.Color(img)
+    img2 = converter.enhance(0.5)
+    return new_image
