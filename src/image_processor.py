@@ -14,7 +14,7 @@ import os
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.image as mpimg
-from jupiter_image import processImageByChannels, increase_brightness
+from jupiter_image import processImageByChannels, increase_brightness, change_brightness
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -144,7 +144,8 @@ def process():
     global img_new
     global bright_value
     bright_value = int(round(float(bright_value)))
-    img_new = increase_brightness(img, bright_value)
+    #img_new = increase_brightness(img, bright_value)
+    img_new = change_brightness(img, bright_value)
     plt.imshow(img_new)
 
     canvas = FigureCanvasTkAgg(figure, master=window)
@@ -354,8 +355,8 @@ entry_1.place(
 
 slider_bright = Scale(
     window,
-    from_=-50,
-    to=50,
+    from_=-127,
+    to=127,
     orient='horizontal',
     command=slider_bright_changed,
     variable=current_value_bright,
