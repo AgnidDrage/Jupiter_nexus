@@ -73,126 +73,158 @@ def open_file(text):
     global b_path
     global map_path
 
-    path = filedialog.askdirectory(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
-                                            title='Select folder')
+    try:
+        path = filedialog.askdirectory(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
+                                                title='Select folder')
 
-    text['text'] = path 
+        text['text'] = path 
 
-    images = os.listdir(path)
+        images = os.listdir(path)
 
-    for image in images:
-        if re.findall('raw', image):
-            raw_path = path + '/' + image
-        if re.findall('red', image):
-            r_path = path + '/' + image
-        if re.findall('green', image):
-            g_path = path + '/' + image
-        if re.findall('blue', image):
-            b_path = path + '/' + image
-        if re.findall('mapprojected', image):
-            map_path = path + '/' + image
+        for image in images:
+            if re.findall('raw', image):
+                raw_path = path + '/' + image
+            if re.findall('red', image):
+                r_path = path + '/' + image
+            if re.findall('green', image):
+                g_path = path + '/' + image
+            if re.findall('blue', image):
+                b_path = path + '/' + image
+            if re.findall('mapprojected', image):
+                map_path = path + '/' + image
 
-    show_raw(raw_path)
+        show_raw(raw_path)
+    except FileNotFoundError:
+        messagebox.showerror('Error', 'The folder you selected contains incompatible files or does not contain the necessary files to process.')
 
 def show_raw(raw_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = mpimg.imread(str(raw_path))
-    plt.imshow(img)
+    try:
+        figure = plt.figure(figsize=(5, 5), dpi=98)
+        img = mpimg.imread(str(raw_path))
+        plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)
+    except FileNotFoundError:
+        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def show_map(map_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = processSingleChannel(map_path)
-    plt.imshow(img)
+    try:
+        figure = plt.figure(figsize=(5, 5), dpi=98)
+        img = processSingleChannel(map_path)
+        plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)
+    except cv2.error:
+        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def show_red(red_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = processSingleChannel(red_path)
-    plt.imshow(img)
+    try:
+        figure = plt.figure(figsize=(5, 5), dpi=98)
+        img = processSingleChannel(red_path)
+        plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)
+    except cv2.error:
+        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def show_green(green_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = processSingleChannel(green_path)
-    plt.imshow(img)
+    try:
+        figure = plt.figure(figsize=(5, 5), dpi=98)
+        img = processSingleChannel(green_path)
+        plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)  
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)  
+    except cv2.error:
+        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def show_blue(blue_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = processMapImage(blue_path)
-    plt.imshow(img)
+    try:
+        figure = plt.figure(figsize=(5, 5), dpi=98)
+        img = processMapImage(blue_path)
+        plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)
+    except cv2.error:
+        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def show_rgb(r_path, g_path, b_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = processImageByChannels(r_path, g_path, b_path)
-    plt.imshow(img)
-    
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)
+    try:
+        figure = plt.figure(figsize=(5, 5), dpi=98)
+        img = processImageByChannels(r_path, g_path, b_path)
+        plt.imshow(img)
+        
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)
+    except TypeError:
+        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def show_pmap(map_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = processMapImage(map_path)
-    plt.imshow(img)
+    try:
+        figure = plt.figure(figsize=(5, 5), dpi=98)
+        img = processMapImage(map_path)
+        plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)
+    except cv2.error:
+        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def show_praw(raw_path):
     global img
     global figure
-    figure = plt.figure(figsize=(5, 5), dpi=98)
-    img = processRawImage(raw_path)
-    plt.imshow(img)
+    try:
+        figure = plt.figure(figsize=(5, 5), dpi=98)
+        img = processRawImage(raw_path)
+        plt.imshow(img)
 
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)
+    except AttributeError:
+        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
 
 def process():
     global figure
     global img_new
     global bright_value
-    bright_value = int(round(float(bright_value)))
-    img_new = change_brightness(img, bright_value)
-    plt.imshow(img_new)
 
-    canvas = FigureCanvasTkAgg(figure, master=window)
-    canvas.draw()
-    canvas.get_tk_widget().place(x=520,y=190)
+    try:
+        bright_value = int(round(float(bright_value)))
+        img_new = change_brightness(img, bright_value)
+        plt.imshow(img_new)
+
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520,y=190)
+    except cv2.error:
+        messagebox.showerror('Error', 'There are no images to process, please select a folder first.')
+
 
 def export():
     global img
