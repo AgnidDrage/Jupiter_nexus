@@ -272,7 +272,7 @@ def export():
 
 
 def show_info():
-    messagebox.showinfo('FAQ', 'Project made by Jupiter Nexus Team\n\n Members:\n  > Mariano Sanchez Toledo\n  > Agustín Montaña\n  > Florencia Cisterna\n  > Emilia Videla\n  > Oriel Barroso\n  > Mar Quijano\n\n 2022')
+    messagebox.showinfo('FAQ', 'Project made by Jupiter Nexus Team\n\n Members:\n  > Mariano Sanchez Toledo\n  > Agustín Montaña\n  > Florencia Cisterna\n  > Emilia Videla\n  > Oriel Barroso\n\n 2022')
 
 
 canvas = Canvas(
