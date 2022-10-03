@@ -1,19 +1,17 @@
 from pathlib import Path
 from tkinter import *
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, filedialog, messagebox
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, filedialog, messagebox
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from core.image_processor import *
 import tkinter as tk
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import re
 import os
 import cv2
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-import matplotlib.image as mpimg
-from jupiter_image import *
+
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+ASSETS_PATH = OUTPUT_PATH / Path("./core/assets")
 
 global r_path
 r_path = None
@@ -36,38 +34,47 @@ img_new = None
 global contrast_value
 contrast_value = None
 
+
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
 
 window = Tk()
 
 window.geometry("1280x720")
-window.configure(bg = "#FFFFFF")
+window.configure(bg="#FFFFFF")
 
 current_value_bright = tk.DoubleVar()
 current_value_color = tk.DoubleVar()
 current_value_contrast = tk.DoubleVar()
 
+
 def get_current_value_bright():
     global bright_value
     bright_value = '{: .2f}'.format(current_value_bright.get())
 
+
 def slider_bright_changed(event):
     value_bright_label.configure(text=get_current_value_bright())
+
 
 def get_current_value_color():
     global color_value
     color_value = '{: .2f}'.format(current_value_color.get())
 
+
 def slider_color_changed(event):
     value_color_label.configure(text=get_current_value_color())
+
 
 def get_current_value_contrast():
     global contrast_value
     contrast_value = '{: .2f}'.format(current_value_contrast.get())
 
+
 def slider_contrast_changed(event):
     value_contrast_label.configure(text=get_current_value_contrast())
+
 
 def open_file(text):
     global raw_path
@@ -77,10 +84,10 @@ def open_file(text):
     global map_path
 
     try:
-        path = filedialog.askdirectory(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
-                                                title='Select folder')
+        path = filedialog.askdirectory(initialdir='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\',
+                                       title='Select folder')
 
-        text['text'] = path 
+        text['text'] = path
 
         images = os.listdir(path)
 
@@ -98,7 +105,9 @@ def open_file(text):
 
         show_raw(raw_path)
     except FileNotFoundError:
-        messagebox.showerror('Error', 'The folder you selected contains incompatible files or does not contain the necessary files to process.')
+        messagebox.showerror(
+            'Error', 'The folder you selected contains incompatible files or does not contain the necessary files to process.')
+
 
 def show_raw(raw_path):
     global img
@@ -110,9 +119,11 @@ def show_raw(raw_path):
 
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)
+        canvas.get_tk_widget().place(x=520, y=190)
     except FileNotFoundError:
-        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
+        messagebox.showerror(
+            'Error', 'There are no images to show, please select a folder first.')
+
 
 def show_map(map_path):
     global img
@@ -124,9 +135,11 @@ def show_map(map_path):
 
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)
+        canvas.get_tk_widget().place(x=520, y=190)
     except cv2.error:
-        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
+        messagebox.showerror(
+            'Error', 'There are no images to show, please select a folder first.')
+
 
 def show_red(red_path):
     global img
@@ -138,9 +151,11 @@ def show_red(red_path):
 
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)
+        canvas.get_tk_widget().place(x=520, y=190)
     except cv2.error:
-        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
+        messagebox.showerror(
+            'Error', 'There are no images to show, please select a folder first.')
+
 
 def show_green(green_path):
     global img
@@ -152,9 +167,11 @@ def show_green(green_path):
 
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)  
+        canvas.get_tk_widget().place(x=520, y=190)
     except cv2.error:
-        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
+        messagebox.showerror(
+            'Error', 'There are no images to show, please select a folder first.')
+
 
 def show_blue(blue_path):
     global img
@@ -166,9 +183,11 @@ def show_blue(blue_path):
 
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)
+        canvas.get_tk_widget().place(x=520, y=190)
     except cv2.error:
-        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
+        messagebox.showerror(
+            'Error', 'There are no images to show, please select a folder first.')
+
 
 def show_rgb(r_path, g_path, b_path):
     global img
@@ -177,12 +196,14 @@ def show_rgb(r_path, g_path, b_path):
         figure = plt.figure(figsize=(5, 5), dpi=98)
         img = processImageByChannels(r_path, g_path, b_path)
         plt.imshow(img)
-        
+
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)
+        canvas.get_tk_widget().place(x=520, y=190)
     except TypeError:
-        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
+        messagebox.showerror(
+            'Error', 'There are no images to show, please select a folder first.')
+
 
 def show_pmap(map_path):
     global img
@@ -194,9 +215,11 @@ def show_pmap(map_path):
 
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)
+        canvas.get_tk_widget().place(x=520, y=190)
     except cv2.error:
-        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
+        messagebox.showerror(
+            'Error', 'There are no images to show, please select a folder first.')
+
 
 def show_praw(raw_path):
     global img
@@ -208,55 +231,61 @@ def show_praw(raw_path):
 
         canvas = FigureCanvasTkAgg(figure, master=window)
         canvas.draw()
-        canvas.get_tk_widget().place(x=520,y=190)
+        canvas.get_tk_widget().place(x=520, y=190)
     except AttributeError:
-        messagebox.showerror('Error', 'There are no images to show, please select a folder first.')
+        messagebox.showerror(
+            'Error', 'There are no images to show, please select a folder first.')
+
 
 def process():
-   global figure
-   global img_new
-   global bright_value
-   global contrast_value
-   global color_value
-   try:
-       contrast_value = int(round(float(contrast_value)))
-       bright_value = int(round(float(bright_value)))
-       color_value = int(round(float(color_value)))
-       img_brillo = change_brightness(img, bright_value)
-       img_new = changeContrast(img_brillo, contrast_value)
-       img_new2 = saturation(img_new, color_value)
-       plt.imshow(img_new2)
-       canvas = FigureCanvasTkAgg(figure, master=window)
-       canvas.draw()
-       canvas.get_tk_widget().place(x=520,y=190)
-   except cv2.error:
-       messagebox.showerror('Error', 'There are no images to process, please select a folder first.')
+    global figure
+    global img_new
+    global bright_value
+    global contrast_value
+    global color_value
+    try:
+        contrast_value = int(round(float(contrast_value)))
+        bright_value = int(round(float(bright_value)))
+        color_value = int(round(float(color_value)))
+        img_brillo = change_brightness(img, bright_value)
+        img_new = changeContrast(img_brillo, contrast_value)
+        img_new2 = saturation(img_new, color_value)
+        plt.imshow(img_new2)
+        canvas = FigureCanvasTkAgg(figure, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=520, y=190)
+    except cv2.error:
+        messagebox.showerror(
+            'Error', 'There are no images to process, please select a folder first.')
 
 
 def export():
     global img
 
-    save_path = filedialog.asksaveasfilename(initialdir ='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\', 
-                                                title='Save path', 
-                                                filetypes=(('png files', '*.png*'),('All files', '*.*')))
+    save_path = filedialog.asksaveasfilename(initialdir='C:\\Users\\agust.AGUSTIN_PC\\Documents\\MEGAsync\\Facultad\\Tercer año\\',
+                                             title='Save path',
+                                             filetypes=(('png files', '*.png*'), ('All files', '*.*')))
 
-    cv2.imwrite(save_path+'.jpg', cv2.cvtColor(img, cv2.COLOR_RGB2BGRA))
-    messagebox.showinfo('Export complete', f'The file was successfully exported to {save_path}.png')
+    cv2.imwrite(save_path+'.png', cv2.cvtColor(img, cv2.COLOR_RGB2BGRA))
+    messagebox.showinfo(
+        'Export complete', f'The file was successfully exported to {save_path}.png')
+
 
 def show_info():
     messagebox.showinfo('FAQ', 'Project made by Jupiter Nexus Team\n\n Members:\n  > Mariano Sanchez Toledo\n  > Agustín Montaña\n  > Florencia Cisterna\n  > Emilia Videla\n  > Oriel Barroso\n  > Mar Quijano\n\n 2022')
 
+
 canvas = Canvas(
     window,
-    bg = "#FFFFFF",
-    height = 720,
-    width = 1280,
-    bd = 0,
-    highlightthickness = 0,
-    relief = "ridge"
+    bg="#FFFFFF",
+    height=720,
+    width=1280,
+    bd=0,
+    highlightthickness=0,
+    relief="ridge"
 )
 
-canvas.place(x = 0, y = 0)
+canvas.place(x=0, y=0)
 image_image_1 = PhotoImage(
     file=relative_to_assets("image_1.png"))
 image_1 = canvas.create_image(
